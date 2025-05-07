@@ -30,18 +30,27 @@
   <h1>📍 招牌辨識推薦支付系統（BP 專案）</h1>
 
   <div class="section">
-    <h2>🎯 專案簡介</h2>
-    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，並由 LineBot 回傳推薦卡別與連結。</p>
+    <h2>設計概念</h2>
+    <ul>
+      <li>便捷的使用方式，不需要額外安裝</li>
+      <li>小店家也可以支援，提升逛街體驗</li>
+      <li>希望在尚未進入商家前就知道獲取高回饋支付方式的資訊</li>
+    </ul>
+  </div>
+  
+  <div class="section">
+    <h2>專案簡介</h2>
+    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，\n並由 LineBot 回傳推薦卡別與連結。</p>
   </div>
 
   <div class="section">
-    <h2>📸 LineBot 體驗入口</h2>
+    <h2>LineBot 體驗入口</h2>
     <img class="qr" src="qr_bp.png" alt="BP 專案 QR Code">
     <p>→ 掃描上方 QR Code，體驗 LineBot 商家辨識與推薦流程。</p>
   </div>
 
   <div class="section">
-    <h2>🧰 使用技術</h2>
+    <h2>使用技術</h2>
     <ul>
       <li>圖像分類模型：ViT (Vision Transformer)</li>
       <li>模型訓練框架：PyTorch</li>
@@ -51,7 +60,7 @@
   </div>
 
   <div class="section">
-    <h2>📈 成效亮點</h2>
+    <h2>成效亮點</h2>
     <ul>
       <li>分類準確率：約 90%</li>
       <li>推論時間：約 1 秒內完成</li>
@@ -60,7 +69,56 @@
   </div>
 
   <div class="section">
-    <h2>🔗 返回主頁</h2>
+    <h2>未來可擴展性</h2>
+    <ul>
+      <li>與商家合作推出酷碰券，於辨識完成時一併提供吸引消費</li>
+      <li>專案商業化後可再引入OCR將辨識率再次提升</li>
+      <li>搭配會員系統紀錄用戶所擁有的支付方式，可直接顯示最高回饋方式</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>開發歷程</h2>
+    <ul>
+      <li><strong>問題：</strong>初期 baseline 訓練時泛化能力不足，且模型關注焦點不在招牌</li>
+      <li><strong>解決方式：</strong>增加照片資料拍攝早上、晚上等場景，\n有效將ResNet50、InceptionV3、MobileNetV2三種模型準確率由75%提升至81~88%</li>
+      <div class="section">
+        <p>ResNet50：</p>
+        <img class="ResNet50" src="ResNet50.png" alt="BP 專案 ResNet50">
+      </div>
+      <div class="section">
+        <p>InceptionV3：</p>
+        <img class="InceptionV3" src="InceptionV3.png" alt="BP 專案 InceptionV3">
+      </div>
+      <div class="section">
+        <p>MobileNetV2：</p>
+        <img class="MobileNetV2" src="MobileNetV2.png" alt="BP 專案 MobileNetV2">
+      </div>
+      <li><strong>問題：</strong>許多信用卡與電子支付規則複雜，難以直觀判斷優劣</li>
+      <li><strong>解決方式：</strong>將需要前置任務、新戶、回饋點數價值小於1的選項排除，避免用戶難以理解</li>
+      <li><strong>問題：</strong>同時連續呈現前三個支付方式的文字佔太多篇幅(超過一頁畫面)，不利於檢視</li>
+      <li><strong>解決方式：</strong>採用Flex message輪播訊息,以左右滑動的方式檢視</li>
+      <li><strong>問題：</strong>準確率無法再向上提升，需考慮更出色準確率的模型</li>
+      <li><strong>解決方式：</strong>嘗試使用剛推出的ViT，雖然效能稍微降低，但是準確率成功突破至92%</li>
+      <li><strong>問題：</strong>用戶不一定會拍下完整招牌(被樹、卡車等障礙物遮蔽)和不同角度造成辨識困難的情況</li>
+      <li><strong>解決方式：</strong>大幅提高照片資料拍攝數量，以九宮格+遮蔽物+左側、正視、右側方式增加豐富度，\nViT準確率提高至97%</li>
+      <div class="section">
+        <p>九宮格+障礙物：</p>
+        <img class="Nine_Grid" src="Nine_Grid.png" alt="BP 專案 Nine_Grid">
+      </div>
+      <div class="section">
+        <p>不同角度與時段：</p>
+        <img class="Angle_Time" src="Angle_Time.png" alt="BP 專案 Angle_Time">
+      </div>
+      <div class="section">
+        <p>ViT：</p>
+        <img class="ViT" src="ViT.png" alt="BP 專案 ViT">
+      </div>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>返回主頁</h2>
     <p><a href="https://meadow-sky-dfe.notion.site/Sean-AI-1ec37081de33803ea095efee6f45a142?pvs=4">← 返回 Notion 主頁</a></p>
   </div>
 </body>
