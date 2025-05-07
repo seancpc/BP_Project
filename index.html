@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>招牌辨識推薦支付系統（BP 專案）</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 2rem;
+      line-height: 1.6;
+    }
+    h1, h2 {
+      color: #2c3e50;
+    }
+    .qr {
+      width: 200px;
+    }
+    .section {
+      margin-bottom: 2rem;
+    }
+    a {
+      color: #0077cc;
+    }
+  </style>
+</head>
+<body>
+  <h1>📍 招牌辨識推薦支付系統（BP 專案）</h1>
+
+  <div class="section">
+    <h2>🎯 專案簡介</h2>
+    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，並由 LineBot 回傳推薦卡別與連結。</p>
+  </div>
+
+  <div class="section">
+    <h2>📸 LineBot 體驗入口</h2>
+    <img class="qr" src="qr_bp.png" alt="BP 專案 QR Code">
+    <p>→ 掃描上方 QR Code，體驗 LineBot 商家辨識與推薦流程。</p>
+  </div>
+
+  <div class="section">
+    <h2>🧰 使用技術</h2>
+    <ul>
+      <li>圖像分類模型：ViT (Vision Transformer)</li>
+      <li>模型訓練框架：PyTorch</li>
+      <li>部署：Flask + MySQL，架設於 AWS EC2 / RDS</li>
+      <li>UI：LineBot + FlexMessage</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>📈 成效亮點</h2>
+    <ul>
+      <li>分類準確率：約 90%</li>
+      <li>推論時間：約 1 秒內完成</li>
+      <li>支援使用者即時體驗，並可擴充到多店家類型</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🔗 返回主頁</h2>
+    <p><a href="https://meadow-sky-dfe.notion.site/Sean-AI-1ec37081de33803ea095efee6f45a142?pvs=4">← 返回 Notion 主頁</a></p>
+  </div>
+</body>
+</html>
