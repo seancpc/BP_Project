@@ -30,7 +30,7 @@
   </style>
 </head>
 <body>
-  <h1>📍 招牌辨識推薦支付系統（BP 專案）</h1>
+  <h1>招牌辨識推薦支付系統（BP 專案）</h1>
 
   <div class="section">
     <h2>設計概念</h2>
@@ -88,7 +88,24 @@
     <h2>開發歷程</h2>
     <ul>
       <div class="qa-block">
-        <li><strong>問題：</strong>初期 baseline 訓練時泛化能力不足，且模型關注焦點不在招牌</li>
+        <li><strong>問題：</strong>專案整體架構規劃?</li>
+        <li><strong>解決方式：</strong>為強化使用體驗與系統彈性，架構採前後端分離設計，利於模型佈署與模組擴充；考慮到支付規則的多樣與複雜性，資料庫亦規劃使用 MySQL 的 View 功能，便於未來整合與快速查閱跨表資料。</li>
+      </div>
+      <div class="section">
+          <p>系統架構：</p>
+          <img class="System_Architecture" src="System_Architecture.png" alt="BP 專案 System_Architecture">
+        </div>
+      <div class="qa-block">
+      <div class="qa-block">
+        <li><strong>問題：</strong>什麼樣的模型適合我的主題?</li>
+        <li><strong>解決方式：</strong>聚焦在TOP1 acc在70%以上，每秒浮點運算次數10單位以下的區間，挑選出ResNet50、InceptionV3、MobileNetV2</li>
+      </div>
+      <div class="section">
+          <p>Model_Choice：</p>
+          <img class="Model_Choice" src="Model_Choice.png" alt="BP 專案 Model_Choice">
+        </div>
+      <div class="qa-block">
+        <li><strong>問題：</strong>初期 baseline 模型訓練時泛化能力不足</li>
         <li><strong>解決方式：</strong>增加照片資料拍攝早上、晚上等場景，有效將ResNet50、InceptionV3、MobileNetV2三種模型準確率由75%提升至81~88%</li>
         <div class="section">
           <p>ResNet50：</p>
