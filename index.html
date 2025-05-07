@@ -40,7 +40,8 @@
   
   <div class="section">
     <h2>專案簡介</h2>
-    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，\n並由 LineBot 回傳推薦卡別與連結。</p>
+    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，</p>
+    <p>並由 LineBot 回傳推薦卡別與連結。</p>
   </div>
 
   <div class="section">
@@ -81,7 +82,7 @@
     <h2>開發歷程</h2>
     <ul>
       <li><strong>問題：</strong>初期 baseline 訓練時泛化能力不足，且模型關注焦點不在招牌</li>
-      <li><strong>解決方式：</strong>增加照片資料拍攝早上、晚上等場景，\n有效將ResNet50、InceptionV3、MobileNetV2三種模型準確率由75%提升至81~88%</li>
+      <li><strong>解決方式：</strong>增加照片資料拍攝早上、晚上等場景，有效將ResNet50、InceptionV3、MobileNetV2三種模型準確率由75%提升至81~88%</li>
       <div class="section">
         <p>ResNet50：</p>
         <img class="ResNet50" src="ResNet50.png" alt="BP 專案 ResNet50">
@@ -101,7 +102,7 @@
       <li><strong>問題：</strong>準確率無法再向上提升，需考慮更出色準確率的模型</li>
       <li><strong>解決方式：</strong>嘗試使用剛推出的ViT，雖然效能稍微降低，但是準確率成功突破至92%</li>
       <li><strong>問題：</strong>用戶不一定會拍下完整招牌(被樹、卡車等障礙物遮蔽)和不同角度造成辨識困難的情況</li>
-      <li><strong>解決方式：</strong>大幅提高照片資料拍攝數量，以九宮格+遮蔽物+左側、正視、右側方式增加豐富度，\nViT準確率提高至97%</li>
+      <li><strong>解決方式：</strong>大幅提高照片資料拍攝數量，以九宮格+遮蔽物+左側、正視、右側方式增加豐富度，ViT準確率提高至97%</li>
       <div class="section">
         <p>九宮格+障礙物：</p>
         <img class="Nine_Grid" src="Nine_Grid.png" alt="BP 專案 Nine_Grid">
