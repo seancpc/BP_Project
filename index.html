@@ -26,7 +26,7 @@
   .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
   h1 { color: var(--heading); font-weight: bold; font-size: 2rem; margin: 0 0 0.3rem; }
   .subtitle { color: var(--text); font-size: 1.1rem; margin: 0; }
-  .lang { font-size: 0.9rem; margin: 0 0 1.2rem; }
+  .lang { text-align: right; font-size: 0.9rem; margin: 0 0 1.2rem; }
   .banner {
     background: #232323; border: 1px solid var(--border); border-radius: 6px;
     padding: 0.7rem 1rem; margin: 0.9rem 0 0; font-size: 0.9rem;
@@ -68,7 +68,7 @@
 
   <h1>招牌辨識推薦支付系統（BP 專案）</h1>
   <p class="subtitle">Storefront-Sign Recognition &amp; Best-Cashback Payment Recommendation via LineBot</p>
-  <div class="banner">拍下招牌就推薦高回饋支付 · <strong>ViT 分類 90% → 資料強化後 97%</strong> · 推論 &lt; 1 秒 · LineBot 線上服務（AWS）</div>
+  <div class="banner">拍下招牌就推薦高回饋支付 · <strong>ViT 分類 90% → 資料強化後 97%</strong> · 推論 &lt; 1 秒 · LineBot + AWS 全端部署</div>
 
   <p class="lead">
     走到店門口,拍下招牌傳給 LineBot —— 系統自動分類店家類型,立刻回傳這類店家
@@ -84,11 +84,6 @@
 
   <h2>專案簡介</h2>
   <p>本專案透過拍攝商家招牌圖片,自動分類店家類型,查詢資料庫中該類別 <strong>TOP3 高回饋支付方式</strong>,並由 LineBot 回傳推薦卡別與連結。</p>
-
-  <h2>LineBot 體驗入口</h2>
-  <img class="qr" src="qr_bp.png" alt="BP 專案 QR Code">
-  <p>→ 掃描上方 QR Code,體驗 LineBot 商家辨識與推薦流程。</p>
-  <p>點此查看 <a href="https://seancpc.github.io/BP_Signs/" target="_blank">商家招牌測試圖集</a>,可搭配 LineBot 進行辨識測試。</p>
 
   <h2>系統架構</h2>
   <pre>

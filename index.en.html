@@ -26,7 +26,7 @@
   .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
   h1 { color: var(--heading); font-weight: bold; font-size: 2rem; margin: 0 0 0.3rem; }
   .subtitle { color: var(--text); font-size: 1.1rem; margin: 0; }
-  .lang { font-size: 0.9rem; margin: 0 0 1.2rem; }
+  .lang { text-align: right; font-size: 0.9rem; margin: 0 0 1.2rem; }
   .banner {
     background: #232323; border: 1px solid var(--border); border-radius: 6px;
     padding: 0.7rem 1rem; margin: 0.9rem 0 0; font-size: 0.9rem;
@@ -68,7 +68,7 @@
 
   <h1>Sign Recognition &amp; Payment Recommendation System (BP Project)</h1>
   <p class="subtitle">Storefront-Sign Classification with ViT + Best-Cashback Recommendation via LineBot</p>
-  <div class="banner">Snap a storefront sign, get the best cashback options · <strong>ViT classification 90% → 97% after data reinforcement</strong> · inference &lt; 1 s · LineBot service live on AWS</div>
+  <div class="banner">Snap a storefront sign, get the best cashback options · <strong>ViT classification 90% → 97% after data reinforcement</strong> · inference &lt; 1 s · full-stack LineBot deployment on AWS</div>
 
   <p class="lead">
     Standing outside a shop? Photograph its sign and send it to the LineBot — the system classifies the store type
@@ -85,11 +85,6 @@
 
   <h2>Overview</h2>
   <p>The project photographs storefront signs, automatically classifies the store type, queries the database for that category's <strong>TOP-3 highest-cashback payment methods</strong>, and replies through LineBot with recommended cards and links.</p>
-
-  <h2>LineBot Demo</h2>
-  <img class="qr" src="qr_bp.png" alt="BP Project QR Code">
-  <p>→ Scan the QR code above to try the LineBot sign-recognition and recommendation flow.</p>
-  <p>See the <a href="https://seancpc.github.io/BP_Signs/" target="_blank">storefront-sign test gallery</a> to test recognition with the LineBot.</p>
 
   <h2>System Architecture</h2>
   <pre>
