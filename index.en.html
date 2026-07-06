@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Recognition &amp; Payment Recommendation System (BP Project)</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --text: #e0e0e0;
+    --heading: #00bcd4;
+    --link: #58a6ff;
+    --code-bg: #2a2a2a;
+    --border: #333;
+    --muted: #9aa0a6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, "Microsoft JhengHei", "PingFang TC", sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+  h1 { color: var(--heading); font-weight: bold; font-size: 2rem; margin: 0 0 0.3rem; }
+  .subtitle { color: var(--text); font-size: 1.1rem; margin: 0; }
+  .lang { font-size: 0.9rem; margin: 0 0 1.2rem; }
+  .banner {
+    background: #232323; border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.7rem 1rem; margin: 0.9rem 0 0; font-size: 0.9rem;
+  }
+  .banner strong { color: var(--heading); }
+  .lead {
+    background: #232323; border-left: 4px solid var(--heading);
+    border-radius: 0 6px 6px 0; padding: 1rem 1.1rem; margin: 1.6rem 0;
+  }
+  h2 { color: var(--heading); font-weight: bold; font-size: 1.5rem; margin: 2.5rem 0 0.8rem; }
+  h3 { color: #ffffff; font-weight: bold; font-size: 1.12rem; margin: 1.9rem 0 0.4rem; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { color: #ffffff; }
+  ul { padding-left: 1.4rem; margin: 0.7rem 0; }
+  li { margin: 0.4rem 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); white-space: nowrap; }
+  pre {
+    background: var(--code-bg); padding: 1rem; border-radius: 6px;
+    overflow-x: auto; font-size: 0.78rem; line-height: 1.45;
+    font-family: Consolas, monospace; color: var(--text);
+  }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-size: 90%; }
+  .qr { width: 200px; border: 1px solid var(--border); border-radius: 6px; }
+  img.shot { max-width: 760px; width: 100%; border: 1px solid var(--border); border-radius: 6px; }
+  .caption { font-size: 0.85rem; color: var(--muted); }
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <p class="lang">English ｜ <a href="index.html">繁體中文</a></p>
+
+  <h1>Sign Recognition &amp; Payment Recommendation System (BP Project)</h1>
+  <p class="subtitle">Storefront-Sign Classification with ViT + Best-Cashback Recommendation via LineBot</p>
+  <div class="banner">Snap a storefront sign, get the best cashback options · <strong>ViT classification 90% → 97% after data reinforcement</strong> · inference &lt; 1 s · LineBot service live on AWS</div>
+
+  <p class="lead">
+    Standing outside a shop? Photograph its sign and send it to the LineBot — the system classifies the store type
+    and instantly replies with the <strong>TOP-3 highest-cashback payment methods</strong> for that category, with links.
+    No extra app required, and even small local shops are covered.
+  </p>
+
+  <h2>Design Concept</h2>
+  <ul>
+    <li>Convenient to use — no extra installation required.</li>
+    <li>Works for small local shops too, improving the shopping experience.</li>
+    <li>Know the best-cashback payment options before you even enter the store.</li>
+  </ul>
+
+  <h2>Overview</h2>
+  <p>The project photographs storefront signs, automatically classifies the store type, queries the database for that category's <strong>TOP-3 highest-cashback payment methods</strong>, and replies through LineBot with recommended cards and links.</p>
+
+  <h2>LineBot Demo</h2>
+  <img class="qr" src="qr_bp.png" alt="BP Project QR Code">
+  <p>→ Scan the QR code above to try the LineBot sign-recognition and recommendation flow.</p>
+  <p>See the <a href="https://seancpc.github.io/BP_Signs/" target="_blank">storefront-sign test gallery</a> to test recognition with the LineBot.</p>
+
+  <h2>System Architecture</h2>
+  <pre>
+   User photographs a storefront sign via LineBot
+            │
+            ▼
+   Flask app server (AWS EC2)
+            │
+            ▼
+   ViT (Vision Transformer) classifies the store type
+            │
+            ▼
+   MySQL View queries the category's TOP-3 cashback options (AWS RDS)
+            │
+            ▼
+   LineBot Flex Message carousel returns recommended cards + links</pre>
+  <img class="shot" src="System_Architecture.png" alt="BP system architecture">
+  <p class="caption">Architecture: front/back-end separation; MySQL Views integrate complex payment rules across tables.</p>
+
+  <h2>Tech Stack</h2>
+  <table>
+    <tr><th>Category</th><th>Stack</th></tr>
+    <tr><td>Image classification</td><td>ViT (Vision Transformer); ResNet50 / InceptionV3 / MobileNetV2 compared during model selection</td></tr>
+    <tr><td>Training framework</td><td>PyTorch</td></tr>
+    <tr><td>Data strategy</td><td>Multi-time-of-day (morning/evening), multi-angle, nine-grid + occlusion capture augmentation</td></tr>
+    <tr><td>Backend deployment</td><td>Flask + MySQL (Views for cross-table integration) on AWS EC2 / RDS</td></tr>
+    <tr><td>Interface</td><td>LineBot + FlexMessage (carousel)</td></tr>
+  </table>
+
+  <h2>Results</h2>
+  <ul>
+    <li>Classification accuracy ≈ <strong>90%</strong>; after multi-angle + occlusion data reinforcement, ViT validation accuracy reached <strong>97%</strong>.</li>
+    <li>Inference completes <strong>within ~1 second</strong>, supporting a real-time user experience.</li>
+    <li>Extensible to more store categories.</li>
+  </ul>
+
+  <h2>Future Extensions</h2>
+  <ul>
+    <li>Introduce OCR after commercialization to push recognition further.</li>
+    <li>Pair with a membership system that records the user's own payment methods, showing their personal best-cashback option directly.</li>
+    <li>Partner with merchants to attach coupons to recognition results, encouraging purchases.</li>
+  </ul>
+  <img class="shot" src="Coupon.png" alt="Coupon concept">
+  <p class="caption">Merchant-partnership coupon concept.</p>
+
+  <h2>Engineering Trail</h2>
+  <p>The development was not a straight line of successes but a chain of "problem → verify → fix". Key milestones:</p>
+
+  <h3>① How to plan the overall architecture?</h3>
+  <p><strong>Solution</strong>: front/back-end separation for better UX and system flexibility, easing model deployment and module expansion. Given the diversity and complexity of payment rules, the database uses MySQL Views for cross-table integration and fast lookups (diagram in "System Architecture" above).</p>
+
+  <h3>② Which model fits this task?</h3>
+  <p><strong>Solution</strong>: focused on the region of Top-1 accuracy ≥ 70% with ≤ 10 GFLOPs, shortlisting ResNet50, InceptionV3, and MobileNetV2.</p>
+  <img class="shot" src="Model_Choice.png" alt="Model selection comparison">
+  <p class="caption">Model selection: the accuracy × compute trade-off region.</p>
+
+  <h3>③ Early baseline models generalized poorly</h3>
+  <p><strong>Solution</strong>: expanded the photo dataset with different scenes (morning, evening, etc.), raising ResNet50 / InceptionV3 / MobileNetV2 accuracy from 75% to 81–88%.</p>
+  <img class="shot" src="ResNet50.png" alt="ResNet50 training results">
+  <p class="caption">ResNet50 training results.</p>
+  <img class="shot" src="InceptionV3.png" alt="InceptionV3 training results">
+  <p class="caption">InceptionV3 training results.</p>
+  <img class="shot" src="MobileNetV2.png" alt="MobileNetV2 training results">
+  <p class="caption">MobileNetV2 training results.</p>
+
+  <h3>④ Credit-card and e-payment rules too complex to compare intuitively</h3>
+  <p><strong>Solution</strong>: excluded options requiring prerequisite tasks, new-customer status, or with reward points worth less than 1 — keeping recommendations easy to understand.</p>
+
+  <h3>⑤ Three payment options' text exceeded one screen</h3>
+  <p><strong>Solution</strong>: Flex Message carousel — swipe left/right to browse the options.</p>
+
+  <h3>⑥ Accuracy plateaued and would not improve</h3>
+  <p><strong>Solution</strong>: adopted the then newly released ViT — slightly slower inference, but accuracy rose steadily to <strong>90%</strong>.</p>
+
+  <h3>⑦ Signs occluded by trees or trucks, or shot at odd angles</h3>
+  <p><strong>Solution</strong>: massively expanded the photo set using a nine-grid layout + occlusions + left/front/right angles, raising ViT accuracy to <strong>97%</strong>.</p>
+  <img class="shot" src="Nine_Grid.png" alt="Nine-grid and occlusion capture">
+  <p class="caption">Nine-grid + occlusion capture strategy.</p>
+  <img class="shot" src="Angle_Time.png" alt="Multi-angle and time-of-day capture">
+  <p class="caption">Multi-angle and time-of-day data augmentation.</p>
+  <img class="shot" src="ViT.png" alt="ViT training results">
+  <p class="caption">Final ViT training results (97%).</p>
+
+  <footer>
+    <a href="https://meadow-sky-dfe.notion.site/Sean-Chuang-AI-1ec37081de33803ea095efee6f45a142">← Back to Portfolio</a>
+  </footer>
+
+</div>
+</body>
+</html>

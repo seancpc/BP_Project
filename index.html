@@ -1,167 +1,181 @@
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>招牌辨識推薦支付系統（BP 專案）</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 2rem;
-      line-height: 1.6;
-      /*       dark mode */
-      background-color: #1e1e1e;
-      color: #e0e0e0;
-    }
-    h1, h2 {
-      color: #00bcd4;
-      font-weight: bold;
-/*       color: #2c3e50; */
-    }
-    .qr {
-      width: 200px;
-    }
-    .section {
-      margin-bottom: 2rem;
-    }
-    a {
-    color: #58a6ff;
-    }
-/*     a {
-      color: #0077cc;
-    } */
-    .qa-block {
-    margin-bottom: 2em;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>招牌辨識推薦支付系統（BP 專案）</title>
+<style>
+  :root {
+    --bg: #1e1e1e;
+    --text: #e0e0e0;
+    --heading: #00bcd4;
+    --link: #58a6ff;
+    --code-bg: #2a2a2a;
+    --border: #333;
+    --muted: #9aa0a6;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: Arial, "Microsoft JhengHei", "PingFang TC", sans-serif;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+  .container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+  h1 { color: var(--heading); font-weight: bold; font-size: 2rem; margin: 0 0 0.3rem; }
+  .subtitle { color: var(--text); font-size: 1.1rem; margin: 0; }
+  .lang { font-size: 0.9rem; margin: 0 0 1.2rem; }
+  .banner {
+    background: #232323; border: 1px solid var(--border); border-radius: 6px;
+    padding: 0.7rem 1rem; margin: 0.9rem 0 0; font-size: 0.9rem;
+  }
+  .banner strong { color: var(--heading); }
+  .lead {
+    background: #232323; border-left: 4px solid var(--heading);
+    border-radius: 0 6px 6px 0; padding: 1rem 1.1rem; margin: 1.6rem 0;
+  }
+  h2 { color: var(--heading); font-weight: bold; font-size: 1.5rem; margin: 2.5rem 0 0.8rem; }
+  h3 { color: #ffffff; font-weight: bold; font-size: 1.12rem; margin: 1.9rem 0 0.4rem; }
+  a { color: var(--link); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  strong { color: #ffffff; }
+  ul { padding-left: 1.4rem; margin: 0.7rem 0; }
+  li { margin: 0.4rem 0; }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: 0.95rem; }
+  th, td { border: 1px solid var(--border); padding: 0.5rem 0.8rem; text-align: left; vertical-align: top; }
+  th { background: var(--code-bg); white-space: nowrap; }
+  pre {
+    background: var(--code-bg); padding: 1rem; border-radius: 6px;
+    overflow-x: auto; font-size: 0.78rem; line-height: 1.45;
+    font-family: Consolas, monospace; color: var(--text);
+  }
+  code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-size: 90%; }
+  .qr { width: 200px; border: 1px solid var(--border); border-radius: 6px; }
+  img.shot { max-width: 760px; width: 100%; border: 1px solid var(--border); border-radius: 6px; }
+  .caption { font-size: 0.85rem; color: var(--muted); }
+  footer {
+    margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.95rem;
+  }
+</style>
 </head>
 <body>
+<div class="container">
+
+  <p class="lang"><a href="index.en.html">English</a> ｜ 繁體中文</p>
+
   <h1>招牌辨識推薦支付系統（BP 專案）</h1>
+  <p class="subtitle">Storefront-Sign Recognition &amp; Best-Cashback Payment Recommendation via LineBot</p>
+  <div class="banner">拍下招牌就推薦高回饋支付 · <strong>ViT 分類 90% → 資料強化後 97%</strong> · 推論 &lt; 1 秒 · LineBot 線上服務（AWS）</div>
 
-  <div class="section">
-    <h2>設計概念</h2>
-    <ul>
-      <li>便捷的使用方式，不需要額外安裝</li>
-      <li>小店家也可以支援，提升逛街體驗</li>
-      <li>希望在尚未進入商家前就知道獲取高回饋支付方式的資訊</li>
-    </ul>
-  </div>
-  
-  <div class="section">
-    <h2>專案簡介</h2>
-    <p>本專案透過拍攝商家招牌圖片，自動分類店家類型，查詢資料庫中該類別 TOP3 高回饋支付方式，</p>
-    <p>並由 LineBot 回傳推薦卡別與連結。</p>
-  </div>
+  <p class="lead">
+    走到店門口,拍下招牌傳給 LineBot —— 系統自動分類店家類型,立刻回傳這類店家
+    <strong>回饋最高的 TOP3 支付方式</strong>與連結。不需安裝額外 App,小店家也能支援。
+  </p>
 
-  <div class="section">
-    <h2>LineBot 體驗入口</h2>
-    <img class="qr" src="qr_bp.png" alt="BP 專案 QR Code">
-    <p>→ 掃描上方 QR Code，體驗 LineBot 商家辨識與推薦流程。</p>
-    <hr>
-    <p>點此查看 <a href="https://seancpc.github.io/BP_Signs/" target="_blank">商家招牌測試圖集</a>，可搭配 LineBot 進行辨識測試。</p>
-  </div>
+  <h2>設計概念</h2>
+  <ul>
+    <li>便捷的使用方式,不需要額外安裝。</li>
+    <li>小店家也可以支援,提升逛街體驗。</li>
+    <li>在尚未進入商家前,就先知道高回饋支付方式的資訊。</li>
+  </ul>
 
-  <div class="section">
-    <h2>使用技術</h2>
-    <ul>
-      <li>圖像分類模型：ViT (Vision Transformer)</li>
-      <li>模型訓練框架：PyTorch</li>
-      <li>佈署：Flask + MySQL，架設於 AWS EC2 / RDS</li>
-      <li>UI：LineBot + FlexMessage</li>
-    </ul>
-  </div>
+  <h2>專案簡介</h2>
+  <p>本專案透過拍攝商家招牌圖片,自動分類店家類型,查詢資料庫中該類別 <strong>TOP3 高回饋支付方式</strong>,並由 LineBot 回傳推薦卡別與連結。</p>
 
-  <div class="section">
-    <h2>成效亮點</h2>
-    <ul>
-      <li>分類準確率：約 90%</li>
-      <li>推論時間：約 1 秒內完成</li>
-      <li>支援使用者即時體驗，並可擴充到多店家類型</li>
-    </ul>
-  </div>
+  <h2>LineBot 體驗入口</h2>
+  <img class="qr" src="qr_bp.png" alt="BP 專案 QR Code">
+  <p>→ 掃描上方 QR Code,體驗 LineBot 商家辨識與推薦流程。</p>
+  <p>點此查看 <a href="https://seancpc.github.io/BP_Signs/" target="_blank">商家招牌測試圖集</a>,可搭配 LineBot 進行辨識測試。</p>
 
-  <div class="section">
-    <h2>未來可擴展性</h2>
-    <ul>
-      <li>專案商業化後可再引入OCR將辨識率再次提升</li>
-      <li>搭配會員系統紀錄用戶所擁有的支付方式，可直接顯示最高回饋方式</li>
-      <li>與商家合作推出酷碰券，於辨識完成時一併提供吸引消費</li>
-      <div class="section">
-        <img class="Coupon" src="Coupon.png" alt="BP 專案 Coupon">
-      </div>
-    </ul>
-  </div>
+  <h2>系統架構</h2>
+  <pre>
+   用戶 LineBot 拍攝商家招牌
+            │
+            ▼
+   Flask App Server(AWS EC2)
+            │
+            ▼
+   ViT(Vision Transformer)分類店家類型
+            │
+            ▼
+   MySQL View 查詢該類別 TOP3 高回饋支付(AWS RDS)
+            │
+            ▼
+   LineBot Flex Message 輪播回傳推薦卡別與連結</pre>
+  <img class="shot" src="System_Architecture.png" alt="BP 專案系統架構圖">
+  <p class="caption">系統架構:前後端分離設計,MySQL View 整合複雜的支付規則與跨表查詢。</p>
 
-  <div class="section">
-    <h2>開發歷程</h2>
-    <ul>
-      <div class="qa-block">
-        <li><strong>問題：</strong>專案整體架構規劃?</li>
-        <li><strong>解決方式：</strong>為強化使用體驗與系統彈性，架構採前後端分離設計，利於模型佈署與模組擴充；考慮到支付規則的多樣與複雜性，資料庫亦規劃使用 MySQL 的 View 功能，便於未來整合與快速查閱跨表資料。</li>
-      </div>
-      <div class="section">
-          <p>系統架構：</p>
-          <img class="System_Architecture" src="System_Architecture.png" alt="BP 專案 System_Architecture">
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>什麼樣的模型適合我的主題?</li>
-        <li><strong>解決方式：</strong>聚焦在Top-1 accuracy 至少70%以上，每秒浮點運算次數10單位以下的區間，挑選出ResNet50、InceptionV3、MobileNetV2</li>
-      </div>
-      <div class="section">
-          <p>Model_Choice：</p>
-          <img class="Model_Choice" src="Model_Choice.png" alt="BP 專案 Model_Choice">
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>初期 baseline 模型訓練時泛化能力不足</li>
-        <li><strong>解決方式：</strong>增加照片資料拍攝早上、晚上等場景，有效將ResNet50、InceptionV3、MobileNetV2三種模型準確率由75%提升至81~88%</li>
-      <div class="section">
-        <p>ResNet50：</p>
-        <img class="ResNet50" src="ResNet50.png" alt="BP 專案 ResNet50">
-      </div>
-      <div class="section">
-        <p>InceptionV3：</p>
-        <img class="InceptionV3" src="InceptionV3.png" alt="BP 專案 InceptionV3">
-      </div>
-      <div class="section">
-        <p>MobileNetV2：</p>
-        <img class="MobileNetV2" src="MobileNetV2.png" alt="BP 專案 MobileNetV2">
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>許多信用卡與電子支付規則複雜，難以直觀判斷優劣</li>
-        <li><strong>解決方式：</strong>將需要前置任務、新戶、回饋點數價值小於1的選項排除，避免用戶難以理解</li>
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>同時連續呈現前三個支付方式的文字佔太多篇幅(超過一頁畫面)，不利於檢視</li>
-        <li><strong>解決方式：</strong>採用Flex message輪播訊息,以左右滑動的方式檢視</li>
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>準確率無法再向上提升，需考慮更出色準確率的模型</li>
-        <li><strong>解決方式：</strong>嘗試使用剛推出的ViT，雖然辨識效率稍微降低，但是準確率穩定提升至90%</li>
-      </div>
-      <div class="qa-block">
-        <li><strong>問題：</strong>用戶不一定會拍下完整招牌(被樹、卡車等障礙物遮蔽)和不同角度造成辨識困難的情況</li>
-        <li><strong>解決方式：</strong>大幅提高照片資料拍攝數量，以九宮格+遮蔽物+左側、正視、右側方式增加豐富度，ViT準確率提高至97%</li>
-      </div>
-      <div class="section">
-        <p>九宮格+障礙物：</p>
-        <img class="Nine_Grid" src="Nine_Grid.png" alt="BP 專案 Nine_Grid">
-      </div>
-      <div class="section">
-        <p>不同角度與時段：</p>
-        <img class="Angle_Time" src="Angle_Time.png" alt="BP 專案 Angle_Time">
-      </div>
-      <div class="section">
-        <p>ViT：</p>
-        <img class="ViT" src="ViT.png" alt="BP 專案 ViT">
-      </div>
-    </ul>
-  </div>
+  <h2>使用技術</h2>
+  <table>
+    <tr><th>類別</th><th>技術堆疊</th></tr>
+    <tr><td>圖像分類</td><td>ViT(Vision Transformer);選型期比較 ResNet50 / InceptionV3 / MobileNetV2</td></tr>
+    <tr><td>訓練框架</td><td>PyTorch</td></tr>
+    <tr><td>資料策略</td><td>多時段(早/晚)、多角度、九宮格 + 遮蔽物拍攝擴增</td></tr>
+    <tr><td>後端部署</td><td>Flask + MySQL(View 跨表整合),架設於 AWS EC2 / RDS</td></tr>
+    <tr><td>介面</td><td>LineBot + FlexMessage(輪播訊息)</td></tr>
+  </table>
 
-  <div class="section">
-    <h2>返回主頁</h2>
-    <p><a href="https://meadow-sky-dfe.notion.site/Sean-AI-1ec37081de33803ea095efee6f45a142?pvs=4">← 返回 Notion 主頁</a></p>
-  </div>
+  <h2>成效亮點</h2>
+  <ul>
+    <li>分類準確率約 <strong>90%</strong>;經多角度 + 遮蔽物資料強化後,ViT 驗證準確率達 <strong>97%</strong>。</li>
+    <li>推論時間約 <strong>1 秒內</strong>完成,支援使用者即時體驗。</li>
+    <li>可擴充到多店家類型。</li>
+  </ul>
+
+  <h2>未來可擴展性</h2>
+  <ul>
+    <li>商業化後可引入 OCR,將辨識率再次提升。</li>
+    <li>搭配會員系統紀錄用戶擁有的支付方式,直接顯示最高回饋選項。</li>
+    <li>與商家合作推出酷碰券,於辨識完成時一併提供、吸引消費。</li>
+  </ul>
+  <img class="shot" src="Coupon.png" alt="酷碰券概念圖">
+  <p class="caption">與商家合作的酷碰券概念。</p>
+
+  <h2>開發歷程</h2>
+  <p>開發過程不是「一路成功」,而是一連串「遇到問題 → 驗證 → 修正」。以下是幾個關鍵節點:</p>
+
+  <h3>① 專案整體架構怎麼規劃?</h3>
+  <p><strong>解決方式</strong>:為強化使用體驗與系統彈性,架構採前後端分離設計,利於模型佈署與模組擴充;考慮到支付規則的多樣與複雜性,資料庫規劃使用 MySQL 的 View 功能,便於整合與快速查閱跨表資料(架構圖見上方「系統架構」)。</p>
+
+  <h3>② 什麼樣的模型適合這個主題?</h3>
+  <p><strong>解決方式</strong>:聚焦在 Top-1 accuracy 至少 70% 以上、每秒浮點運算次數 10 單位以下的區間,挑選出 ResNet50、InceptionV3、MobileNetV2。</p>
+  <img class="shot" src="Model_Choice.png" alt="模型選型比較">
+  <p class="caption">模型選型:準確率 × 運算量的取捨區間。</p>
+
+  <h3>③ 初期 baseline 模型泛化能力不足</h3>
+  <p><strong>解決方式</strong>:增加照片資料,涵蓋早上、晚上等不同場景,有效將 ResNet50、InceptionV3、MobileNetV2 三種模型準確率由 75% 提升至 81～88%。</p>
+  <img class="shot" src="ResNet50.png" alt="ResNet50 訓練結果">
+  <p class="caption">ResNet50 訓練結果。</p>
+  <img class="shot" src="InceptionV3.png" alt="InceptionV3 訓練結果">
+  <p class="caption">InceptionV3 訓練結果。</p>
+  <img class="shot" src="MobileNetV2.png" alt="MobileNetV2 訓練結果">
+  <p class="caption">MobileNetV2 訓練結果。</p>
+
+  <h3>④ 信用卡與電子支付規則複雜,難以直觀判斷優劣</h3>
+  <p><strong>解決方式</strong>:將需要前置任務、限新戶、回饋點數價值小於 1 的選項排除,避免用戶難以理解。</p>
+
+  <h3>⑤ 連續呈現三個支付方式的文字超過一頁畫面</h3>
+  <p><strong>解決方式</strong>:採用 Flex Message 輪播訊息,以左右滑動的方式檢視。</p>
+
+  <h3>⑥ 準確率無法再向上提升</h3>
+  <p><strong>解決方式</strong>:嘗試使用當時剛推出的 ViT —— 辨識效率稍微降低,但準確率穩定提升至 <strong>90%</strong>。</p>
+
+  <h3>⑦ 招牌被樹、卡車遮蔽或拍攝角度刁鑽,辨識困難</h3>
+  <p><strong>解決方式</strong>:大幅提高照片拍攝數量,以九宮格 + 遮蔽物 + 左側 / 正視 / 右側多角度增加資料豐富度,ViT 準確率提高至 <strong>97%</strong>。</p>
+  <img class="shot" src="Nine_Grid.png" alt="九宮格與障礙物拍攝">
+  <p class="caption">九宮格 + 障礙物拍攝策略。</p>
+  <img class="shot" src="Angle_Time.png" alt="不同角度與時段拍攝">
+  <p class="caption">不同角度與時段的資料擴增。</p>
+  <img class="shot" src="ViT.png" alt="ViT 訓練結果">
+  <p class="caption">ViT 最終訓練結果(97%)。</p>
+
+  <footer>
+    <a href="https://meadow-sky-dfe.notion.site/Sean-Chuang-AI-1ec37081de33803ea095efee6f45a142">← 返回作品集主頁</a>
+  </footer>
+
+</div>
 </body>
 </html>
