@@ -52,6 +52,15 @@
     font-family: Consolas, monospace; color: var(--text);
   }
   code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-size: 90%; }
+  .btns { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.1rem 0; }
+  .btn {
+    display: inline-block; padding: 0.6rem 1.1rem;
+    border: 1px solid var(--link); border-radius: 6px;
+    color: var(--link); font-size: 0.95rem; font-weight: 500;
+  }
+  .btn:hover { background: var(--link); color: var(--bg); text-decoration: none; }
+  .btn.primary { background: var(--heading); border-color: var(--heading); color: var(--bg); }
+  .btn.primary:hover { opacity: 0.85; color: var(--bg); }
   .qr { width: 200px; border: 1px solid var(--border); border-radius: 6px; }
   img.shot { max-width: 760px; width: 100%; border: 1px solid var(--border); border-radius: 6px; }
   .caption { font-size: 0.85rem; color: var(--muted); }
@@ -76,6 +85,10 @@
     No extra app required, and even small local shops are covered.
   </p>
 
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/seancpc/BP_Project">GitHub Repo</a>
+  </div>
+
   <h2>Design Concept</h2>
   <ul>
     <li>Convenient to use — no extra installation required.</li>
@@ -85,10 +98,17 @@
 
   <h2>Overview</h2>
   <p>The project photographs storefront signs, automatically classifies the store type, queries the database for that category's <strong>TOP-3 highest-cashback payment methods</strong>, and replies through LineBot with recommended cards and links.</p>
+  <ul>
+    <li><strong>Dataset</strong>: storefront signs photographed on site in Taipei's Ximending district (Wuchang St. Sec. 2), building a <strong>15-class</strong> sign-recognition dataset.</li>
+    <li><strong>Deployment</strong>: first built on GCP, then rebuilt and migrated to AWS (EC2 + RDS, with an Nginx reverse proxy serving HTTPS).</li>
+  </ul>
 
   <h2>System Architecture</h2>
   <pre>
    User photographs a storefront sign via LineBot
+            │
+            ▼
+   Nginx reverse proxy (HTTPS, AWS EC2)
             │
             ▼
    Flask app server (AWS EC2)
@@ -109,19 +129,19 @@
     <tr><th>Category</th><th>Stack</th></tr>
     <tr><td>Image classification</td><td>ViT (Vision Transformer); ResNet50 / InceptionV3 / MobileNetV2 compared during model selection</td></tr>
     <tr><td>Training framework</td><td>PyTorch</td></tr>
-    <tr><td>Data strategy</td><td>Multi-time-of-day (morning/evening), multi-angle, nine-grid + occlusion capture augmentation</td></tr>
-    <tr><td>Backend deployment</td><td>Flask + MySQL (Views for cross-table integration) on AWS EC2 / RDS</td></tr>
+    <tr><td>Data strategy</td><td>15 store-sign classes photographed on site in Ximending; multi-time-of-day (morning/evening), multi-angle, nine-grid + occlusion capture augmentation</td></tr>
+    <tr><td>Backend deployment</td><td>Flask + Nginx (HTTPS reverse proxy) + MySQL (Views for cross-table integration) on AWS EC2 / RDS; first built on GCP Compute Engine / Cloud Run, then migrated to AWS</td></tr>
     <tr><td>Interface</td><td>LineBot + FlexMessage (carousel)</td></tr>
   </table>
 
-  <h2>Results</h2>
+  <h2>Key Results</h2>
   <ul>
     <li>Classification accuracy ≈ <strong>90%</strong>; after multi-angle + occlusion data reinforcement, ViT validation accuracy reached <strong>97%</strong>.</li>
     <li>Inference completes <strong>within ~1 second</strong>, supporting a real-time user experience.</li>
     <li>Extensible to more store categories.</li>
   </ul>
 
-  <h2>Future Extensions</h2>
+  <h2>Scope &amp; Next</h2>
   <ul>
     <li>Introduce OCR after commercialization to push recognition further.</li>
     <li>Pair with a membership system that records the user's own payment methods, showing their personal best-cashback option directly.</li>
@@ -130,7 +150,7 @@
   <img class="shot" src="Coupon.png" alt="Coupon concept">
   <p class="caption">Merchant-partnership coupon concept.</p>
 
-  <h2>Engineering Trail</h2>
+  <h2>Development Journey</h2>
   <p>The development was not a straight line of successes but a chain of "problem → verify → fix". Key milestones:</p>
 
   <h3>① How to plan the overall architecture?</h3>
@@ -157,7 +177,7 @@
   <p><strong>Solution</strong>: Flex Message carousel — swipe left/right to browse the options.</p>
 
   <h3>⑥ Accuracy plateaued and would not improve</h3>
-  <p><strong>Solution</strong>: adopted the then newly released ViT — slightly slower inference, but accuracy rose steadily to <strong>90%</strong>.</p>
+  <p><strong>Solution</strong>: switched to ViT (Vision Transformer) — it falls outside the compute range set in ②, a deliberate trade of slightly slower inference for accuracy, which rose steadily to <strong>90%</strong>.</p>
 
   <h3>⑦ Signs occluded by trees or trucks, or shot at odd angles</h3>
   <p><strong>Solution</strong>: massively expanded the photo set using a nine-grid layout + occlusions + left/front/right angles, raising ViT accuracy to <strong>97%</strong>.</p>
