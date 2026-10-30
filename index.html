@@ -52,6 +52,15 @@
     font-family: Consolas, monospace; color: var(--text);
   }
   code { background: var(--code-bg); padding: 1px 5px; border-radius: 3px; font-size: 90%; }
+  .btns { display: flex; gap: 0.8rem; flex-wrap: wrap; margin: 1.1rem 0; }
+  .btn {
+    display: inline-block; padding: 0.6rem 1.1rem;
+    border: 1px solid var(--link); border-radius: 6px;
+    color: var(--link); font-size: 0.95rem; font-weight: 500;
+  }
+  .btn:hover { background: var(--link); color: var(--bg); text-decoration: none; }
+  .btn.primary { background: var(--heading); border-color: var(--heading); color: var(--bg); }
+  .btn.primary:hover { opacity: 0.85; color: var(--bg); }
   .qr { width: 200px; border: 1px solid var(--border); border-radius: 6px; }
   img.shot { max-width: 760px; width: 100%; border: 1px solid var(--border); border-radius: 6px; }
   .caption { font-size: 0.85rem; color: var(--muted); }
@@ -75,6 +84,10 @@
     <strong>回饋最高的 TOP3 支付方式</strong>與連結。不需安裝額外 App,小店家也能支援。
   </p>
 
+  <div class="btns">
+    <a class="btn primary" href="https://github.com/seancpc/BP_Project">GitHub Repo</a>
+  </div>
+
   <h2>設計概念</h2>
   <ul>
     <li>便捷的使用方式,不需要額外安裝。</li>
@@ -84,10 +97,17 @@
 
   <h2>專案簡介</h2>
   <p>本專案透過拍攝商家招牌圖片,自動分類店家類型,查詢資料庫中該類別 <strong>TOP3 高回饋支付方式</strong>,並由 LineBot 回傳推薦卡別與連結。</p>
+  <ul>
+    <li><strong>資料集</strong>:實地蒐集台北西門町商圈(武昌街二段)的商家招牌,建立 <strong>15 類</strong>商家招牌辨識資料集。</li>
+    <li><strong>部署</strong>:初版建於 GCP,後自行重建並遷移至 AWS(EC2 + RDS,Nginx 反向代理提供 HTTPS)。</li>
+  </ul>
 
   <h2>系統架構</h2>
   <pre>
    用戶 LineBot 拍攝商家招牌
+            │
+            ▼
+   Nginx 反向代理(HTTPS,AWS EC2)
             │
             ▼
    Flask App Server(AWS EC2)
@@ -108,8 +128,8 @@
     <tr><th>類別</th><th>技術堆疊</th></tr>
     <tr><td>圖像分類</td><td>ViT(Vision Transformer);選型期比較 ResNet50 / InceptionV3 / MobileNetV2</td></tr>
     <tr><td>訓練框架</td><td>PyTorch</td></tr>
-    <tr><td>資料策略</td><td>多時段(早/晚)、多角度、九宮格 + 遮蔽物拍攝擴增</td></tr>
-    <tr><td>後端部署</td><td>Flask + MySQL(View 跨表整合),架設於 AWS EC2 / RDS</td></tr>
+    <tr><td>資料策略</td><td>西門町實地蒐集 15 類商家招牌;多時段(早/晚)、多角度、九宮格 + 遮蔽物拍攝擴增</td></tr>
+    <tr><td>後端部署</td><td>Flask + Nginx(HTTPS 反向代理)+ MySQL(View 跨表整合),架設於 AWS EC2 / RDS;初版建於 GCP Compute Engine / Cloud Run,後自行遷移至 AWS</td></tr>
     <tr><td>介面</td><td>LineBot + FlexMessage(輪播訊息)</td></tr>
   </table>
 
@@ -120,7 +140,7 @@
     <li>可擴充到多店家類型。</li>
   </ul>
 
-  <h2>未來可擴展性</h2>
+  <h2>範圍與後續</h2>
   <ul>
     <li>商業化後可引入 OCR,將辨識率再次提升。</li>
     <li>搭配會員系統紀錄用戶擁有的支付方式,直接顯示最高回饋選項。</li>
@@ -156,7 +176,7 @@
   <p><strong>解決方式</strong>:採用 Flex Message 輪播訊息,以左右滑動的方式檢視。</p>
 
   <h3>⑥ 準確率無法再向上提升</h3>
-  <p><strong>解決方式</strong>:嘗試使用當時剛推出的 ViT —— 辨識效率稍微降低,但準確率穩定提升至 <strong>90%</strong>。</p>
+  <p><strong>解決方式</strong>:改用 ViT(Vision Transformer)—— 超出 ② 設定的運算量區間,以些許推論速度換取準確率,準確率穩定提升至 <strong>90%</strong>。</p>
 
   <h3>⑦ 招牌被樹、卡車遮蔽或拍攝角度刁鑽,辨識困難</h3>
   <p><strong>解決方式</strong>:大幅提高照片拍攝數量,以九宮格 + 遮蔽物 + 左側 / 正視 / 右側多角度增加資料豐富度,ViT 準確率提高至 <strong>97%</strong>。</p>
