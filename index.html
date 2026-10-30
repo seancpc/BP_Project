@@ -136,7 +136,7 @@
   <p><strong>解決方式</strong>:為強化使用體驗與系統彈性,架構採前後端分離設計,利於模型佈署與模組擴充;考慮到支付規則的多樣與複雜性,資料庫規劃使用 MySQL 的 View 功能,便於整合與快速查閱跨表資料(架構圖見上方「系統架構」)。</p>
 
   <h3>② 什麼樣的模型適合這個主題?</h3>
-  <p><strong>解決方式</strong>:聚焦在 Top-1 accuracy 至少 70% 以上、每秒浮點運算次數 10 單位以下的區間,挑選出 ResNet50、InceptionV3、MobileNetV2。</p>
+  <p><strong>解決方式</strong>:聚焦在 Top-1 accuracy 至少 70% 以上、運算量 10 GFLOPs 以下的區間,挑選出 ResNet50、InceptionV3、MobileNetV2。</p>
   <img class="shot" src="Model_Choice.png" alt="模型選型比較">
   <p class="caption">模型選型:準確率 × 運算量的取捨區間。</p>
 
